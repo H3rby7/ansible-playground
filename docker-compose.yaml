@@ -1,0 +1,21 @@
+version: '3'
+services:
+  server1.test:
+    build:
+      context: .
+      dockerfile: docker/TestServer.dockerfile
+    container_name: server1.test
+    hostname: server1.test
+    ports:
+      - 22
+  ansible:
+    build:
+      context: .
+      dockerfile: docker/ControlNode.dockerfile
+    container_name: ansible
+    entrypoint: bash
+    tty: true
+    environment:
+      ANSIBLE_HOST_KEY_CHECKING: "False"
+    volumes:
+      - ./playbooks/:/ansible/playbooks
